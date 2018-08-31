@@ -1,0 +1,30 @@
+* github-org-repos-resource
+libs to talk to github
+produces cli tools
+* Source
+** api_key :: String
+** org :: String
+* Params
+None yet
+
+* Methods
+** Check
+Reads stdin:
+#+BEGIN_SRC JSON
+{
+  "source": {
+    "api_key": "abc123...",
+    "org": "LuminalHQ"
+  },
+  "version": { "ref": "abc123..." }
+}
+#+END_SRC
+stdout (can be empty):
+#+BEGIN_SRC JSON
+[
+  { "ref": "abc123..." }
+]
+#+END_SRC
+** Get
+** Put
+Noop
