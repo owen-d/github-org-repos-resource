@@ -27,3 +27,6 @@ printRepos x =
     Left e  -> print e
     -- Right v -> mapM_ print v
     Right v -> print . T.toVersion . V.toList $ v
+
+showRepos :: V.Vector Repos.Repo -> IO ()
+showRepos repos = print . T.toVersion . V.toList $ repos
