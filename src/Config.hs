@@ -6,6 +6,7 @@ module Config
   ) where
 
 import           Data.Aeson              (FromJSON, (.:), (.:?))
+import qualified Data.ByteString.Lazy  as B
 import qualified Data.Aeson              as A
 import qualified Data.Aeson.Types        as AT
 import qualified Data.ByteString.Char8   as C8

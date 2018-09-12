@@ -4,6 +4,7 @@ module IOUtils
 
 import qualified Config
 import qualified Types
+import Control.Monad (liftM)
 
 propResultsM ::
      (Show a, Show b) => (a -> IO (Either b c)) -> IO (Maybe a) -> IO (Maybe c)
@@ -21,3 +22,9 @@ unwrapErr x = do
       print a
       return Nothing
     Right b -> return (Just b)
+
+doMaybe :: (a -> IO b) -> Maybe a -> IO (Maybe b)
+doMaybe fn x = do
+  case x of
+    Nothing -> return Nothing
+    Just a -> liftM Just $ fn a

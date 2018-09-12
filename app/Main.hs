@@ -10,15 +10,7 @@ import           Data.Maybe            (maybe)
 import qualified GitHub.Auth           as Auth
 import qualified Handlers              as Handlers
 import qualified IOUtils               as IOUtils
-
--- main = do
---   json <- B.getContents
---   let decoded = A.eitherDecode json :: Either String Config.Input
---   case decoded of
---     Left err -> putStrLn err
---     Right conf -> do
---       resp <- Handlers.getRepos (Config.source conf)
---       Handlers.printRepos resp
+import qualified Commands
 
 main = do
   json <- B.getContents
@@ -29,5 +21,6 @@ main = do
         putStrLn err
         return Nothing
       Right conf -> return $ Just conf
-  repos <- IOUtils.propResults (\x -> Handlers.getRepos (Config.source x)) conf
-  maybe (return ()) Handlers.showRepos repos
+  version <- IOUtils.doMaybe Commands.resourceCheck conf
+  IOUtils.doMaybe print version
+
