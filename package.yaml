@@ -28,6 +28,7 @@ dependencies:
 - unordered-containers
 - SHA
 - vector
+- either
 
 library:
   source-dirs: src

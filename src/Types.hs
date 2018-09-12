@@ -16,7 +16,7 @@ import qualified GitHub.Endpoints.Repos as Repos
 -- (May need to be modified later)
 data Version =
   Version String
-  deriving (Show)
+  deriving (Show, Eq)
 
 toVersion :: [Repos.Repo] -> Maybe Version
 toVersion [] = Nothing

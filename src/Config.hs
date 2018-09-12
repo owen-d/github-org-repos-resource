@@ -17,10 +17,9 @@ import qualified Types                   as T
 
 
 data Input = Input
-  { source  :: Source
+  { source :: Source
   , version :: Maybe T.Version
-  }
-  deriving (Show)
+  } deriving (Show)
 
 instance FromJSON Input where
   parseJSON = A.withObject "Input" $ \v ->

@@ -30,3 +30,9 @@ printRepos x =
 
 showRepos :: V.Vector Repos.Repo -> IO ()
 showRepos repos = print . T.toVersion . V.toList $ repos
+
+currentVersion :: Config.Input -> IO (Either Def.Error (Maybe T.Version))
+currentVersion Config.Input {source = src} = do
+  repos <- getRepos src
+  let res = T.toVersion . V.toList <$> repos
+  return res

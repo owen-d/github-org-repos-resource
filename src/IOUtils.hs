@@ -2,6 +2,9 @@ module IOUtils
     ( module IOUtils
     ) where
 
+import qualified Config
+import qualified Types
+
 propResultsM ::
      (Show a, Show b) => (a -> IO (Either b c)) -> IO (Maybe a) -> IO (Maybe c)
 propResultsM fn x = x >>= maybe (return Nothing) (unwrapErr . fn)
