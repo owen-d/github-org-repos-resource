@@ -21,6 +21,7 @@ main = do
         putStrLn err
         return Nothing
       Right conf -> return $ Just conf
-  version <- IOUtils.doMaybe Commands.resourceCheck conf
-  IOUtils.doMaybe print version
+  versions <- IOUtils.doMaybe Commands.resourceCheck conf
+  let encoded = A.encode <$> versions
+  IOUtils.doMaybe print encoded
 

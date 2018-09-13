@@ -5,6 +5,8 @@ module Types
   ( module Types
   ) where
 
+import qualified Data.Aeson             as A
+import qualified Data.Aeson.Types       as AT
 import qualified Data.ByteString.Char8  as BC
 import qualified Data.ByteString.Lazy   as B
 import qualified Data.Digest.Pure.SHA   as SHA
@@ -27,3 +29,6 @@ toVersion repos =
       joined = foldr BC.append "" mapped
       sha = mkSha joined
   in Just sha
+
+instance A.ToJSON Version where
+  toJSON (Version s) = A.object ["ref" A..= (A.String . T.pack) s]
