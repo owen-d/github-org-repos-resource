@@ -1,5 +1,5 @@
-{-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DuplicateRecordFields #-}
+{-# LANGUAGE OverloadedStrings     #-}
 
 module Commands.In
   ( module Commands.In
@@ -9,20 +9,25 @@ import           Commands.Check         (resourceCheck)
 import qualified Config                 as Config
 import           Data.Aeson             ((.=))
 import qualified Data.Aeson             as A
+import qualified Data.ByteString.Lazy   as B
 import           Data.Maybe             (fromMaybe)
 import qualified Data.Vector            as V
 import qualified GitHub.Endpoints.Repos as Repos
 import qualified Handlers               as H
 import qualified IOUtils
+import qualified System.IO              as SIO
 import qualified Types                  as T
 import           Utils                  (unpackMaybe)
 
-resourceIn :: Config.Input -> IO ([Repos.Repo], Maybe T.Version)
-resourceIn Config.Input {Config.source = src} = do
+
+resourceIn :: SIO.FilePath -> Config.Input -> IO ()
+resourceIn fPath (Config.Input {Config.source = src}) = do
   repos <- (IOUtils.unwrapErr . H.getRepos) src
   let repos' = fromMaybe [] (V.toList <$> repos)
   let version = T.toVersion repos'
-  return (repos', version)
+  B.writeFile fPath (A.encode repos')
+  let output = A.object ["version" .= version]
+  B.putStr (A.encode output)
 
 instance A.ToJSON Repos.Repo where
   toJSON r =
