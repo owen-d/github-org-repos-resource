@@ -7,7 +7,7 @@ module Types
 
 import qualified Data.Aeson             as A
 import qualified Data.Aeson.Types       as AT
-import qualified Data.ByteString.Char8  as BC
+import qualified Data.ByteString.Char8  as C8
 import qualified Data.ByteString.Lazy   as B
 import qualified Data.Digest.Pure.SHA   as SHA
 import qualified Data.Text              as T
@@ -23,12 +23,15 @@ data Version =
 toVersion :: [Repos.Repo] -> Maybe Version
 toVersion [] = Nothing
 toVersion repos =
-  let convertRepo = BC.pack . T.unpack . Name.untagName . Repos.repoName
+  let convertRepo = C8.pack . T.unpack . repoName
       mkSha = Version . SHA.showDigest . SHA.sha1 . B.fromStrict
       mapped = map convertRepo repos
-      joined = foldr BC.append "" mapped
+      joined = foldr C8.append "" mapped
       sha = mkSha joined
   in Just sha
 
 instance A.ToJSON Version where
   toJSON (Version s) = A.object ["ref" A..= (A.String . T.pack) s]
+
+repoName :: Repos.Repo -> T.Text
+repoName = Name.untagName . Repos.repoName

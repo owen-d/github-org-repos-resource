@@ -25,6 +25,19 @@ stdout (can be empty):
   { "ref": "abc123..." }
 ]
 #+END_SRC
-** Get
-** Put
+** In
+destination dir as $1
+source + version on stdin
+drops json metadata of repos in dest dir
+outputs info on stdout:
+#+BEGIN_SRC JSON
+{
+  "version": { "ref": "61cebf" },
+  "metadata": [
+    { "name": "commit", "value": "61cebf" },
+    { "name": "author", "value": "Hulk Hogan" }
+  ]
+}
+#+END_SRC
+** Out
 Noop
