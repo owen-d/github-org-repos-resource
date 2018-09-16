@@ -1,4 +1,4 @@
-DOCKER_REPO = owend/gihub-org-repos-resource
+DOCKER_REPO = owend/github-org-repos-resource
 TAG ?= latest
 CONF_FILE ?= .confs/check.json
 SCRATCH_DIR = scratch
