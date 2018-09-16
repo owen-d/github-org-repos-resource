@@ -37,3 +37,41 @@ outputs info on stdout:
 #+END_SRC
 ** Out
 Noop
+* Example pipeline
+#+BEGIN_SRC yaml
+resource_types:
+- name: github-org-repos
+  type: docker-image
+  source:
+    repository: owend/github-org-repos-resource
+    tag: latest
+
+resources:
+- name: repos
+  webhook_token: ((github-webhook-token))
+  type: github-org-repos
+  source:
+    api_key: ((github-access-token))
+    org: ((org-name))
+  check_every: 30m
+
+jobs:
+- name: repos-task
+  plan:
+  - get: repos
+    trigger: true
+  - task: cat-repos
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source:
+          repository: alpine
+          tag: latest
+      inputs:
+      - name: repos
+      run:
+        path: cat
+        args:
+        - repos/repos.json
+#+END_SRC

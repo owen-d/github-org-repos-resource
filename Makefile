@@ -2,7 +2,6 @@ DOCKER_REPO = owend/gihub-org-repos-resource
 TAG ?= latest
 CONF_FILE ?= .confs/check.json
 SCRATCH_DIR = scratch
-OUTPUT_FILE = $(SCRATCH_DIR)/repos.json
 
 $(SCRATCH_DIR):
 	mkdir -p $@
@@ -21,7 +20,7 @@ run-check: build
 
 .PHONY: run-in
 run-in: build | $(SCRATCH_DIR)
-	cat $(CONF_FILE) | stack exec in $(OUTPUT_FILE)
+	cat $(CONF_FILE) | stack exec in $(SCRATCH_DIR)
 
 .PHONY: run-out
 run-out: build
