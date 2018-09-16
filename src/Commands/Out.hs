@@ -2,5 +2,5 @@ module Commands.Out
   ( module Commands.Out
   ) where
 
-resourceOut :: Int
-resourceOut = 2
+resourceOut :: IO ()
+resourceOut = putStrLn "Out not inplemented."

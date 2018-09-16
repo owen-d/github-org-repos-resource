@@ -1,7 +1,10 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Main where
+module Main
+  ( main
+  ) where
 
+import qualified Commands
 import qualified Config                as Config
 import qualified Data.Aeson            as A
 import qualified Data.ByteString.Char8 as C8
@@ -10,7 +13,6 @@ import           Data.Maybe            (maybe)
 import qualified GitHub.Auth           as Auth
 import qualified Handlers              as Handlers
 import qualified IOUtils               as IOUtils
-import qualified Commands
 
 main = do
   json <- B.getContents
@@ -24,4 +26,3 @@ main = do
   versions <- IOUtils.doMaybe Commands.resourceCheck conf
   let encoded = A.encode <$> versions
   IOUtils.doMaybe print encoded
-
