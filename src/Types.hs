@@ -10,6 +10,8 @@ import qualified Data.Aeson.Types       as AT
 import qualified Data.ByteString.Char8  as C8
 import qualified Data.ByteString.Lazy   as B
 import qualified Data.Digest.Pure.SHA   as SHA
+import qualified Data.HashMap.Strict    as HM
+import qualified Data.Text              as Text
 import qualified Data.Text              as T
 import qualified GitHub.Data.Name       as Name
 import qualified GitHub.Endpoints.Repos as Repos
@@ -35,3 +37,14 @@ instance A.ToJSON Version where
 
 repoName :: Repos.Repo -> T.Text
 repoName = Name.untagName . Repos.repoName
+
+
+instance A.FromJSON Version where
+  parseJSON = A.withObject "Version" extractVersion
+
+extractVersion :: AT.Object -> AT.Parser Version
+extractVersion o =
+  case HM.lookup "ref" o of
+    Just (AT.String v) -> (return . Version . Text.unpack) v
+    Just _ -> fail $ "invalid type for" ++ "ref"
+    Nothing -> fail $ "failed to find" ++ "ref"

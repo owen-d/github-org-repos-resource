@@ -27,10 +27,6 @@ instance FromJSON Input where
     Input <$> v .: "source"
       <*> v .:? "version"
 
-instance FromJSON T.Version where
-  parseJSON = A.withText "Version" $ \v ->
-    return . T.Version .Text.unpack $ v
-
 data Source = Source
   { api_key :: Auth.Auth
   , org     :: String
@@ -41,7 +37,6 @@ instance FromJSON Source where
   parseJSON = A.withObject "Source" $ \v ->
     Source <$> parseApiKey v
       <*> v .: "org"
-
 
 parseApiKey :: AT.Object -> AT.Parser Auth.Auth
 parseApiKey o = case HM.lookup "api_key" o of
