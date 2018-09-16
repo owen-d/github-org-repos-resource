@@ -16,16 +16,18 @@ import qualified Data.Vector                as V
 import qualified GitHub.Endpoints.Repos     as Repos
 import qualified Handlers                   as H
 import qualified IOUtils
-import qualified System.IO                  as SIO
+import System.FilePath.Posix ((</>), FilePath)
 import qualified Types                      as T
 import           Utils                      (unpackMaybe)
 
+repoFile = "repos.json"
 
-resourceIn :: SIO.FilePath -> Config.Input -> IO ()
-resourceIn fPath (Config.Input {Config.source = src}) = do
+resourceIn :: FilePath -> Config.Input -> IO ()
+resourceIn dirname (Config.Input {Config.source = src}) = do
   repos <- (IOUtils.unwrapErr . H.getRepos) src
   let repos' = fromMaybe [] (V.toList <$> repos)
   let version = T.toVersion repos'
+  let fPath = dirname </> repoFile
   B.writeFile fPath (A.encode repos')
   let output = A.object ["version" .= version]
   C8.putStrLn (A.encode output)

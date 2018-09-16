@@ -29,6 +29,7 @@ dependencies:
 - SHA
 - vector
 - either
+- filepath
 
 library:
   source-dirs: src

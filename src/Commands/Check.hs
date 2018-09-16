@@ -24,4 +24,3 @@ resourceCheck input = do
             | lastVersion /= currentVersion -> [y]
           _ -> []
   C8.putStrLn (A.encode res)
-
