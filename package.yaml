@@ -34,7 +34,7 @@ library:
   source-dirs: src
 
 executables:
-  github-org-repos-check:
+  check:
     main:                Main.hs
     source-dirs:         app/check
     ghc-options:
@@ -44,7 +44,7 @@ executables:
     dependencies:
     - github-org-repos-resource
 
-  github-org-repos-in:
+  in:
     main:                Main.hs
     source-dirs:         app/in
     ghc-options:
@@ -54,7 +54,7 @@ executables:
     dependencies:
     - github-org-repos-resource
 
-  github-org-repos-out:
+  out:
     main:                Main.hs
     source-dirs:         app/out
     ghc-options:
