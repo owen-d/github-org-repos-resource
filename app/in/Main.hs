@@ -13,6 +13,7 @@ import           Data.Maybe            (maybe)
 import qualified GitHub.Auth           as Auth
 import qualified Handlers              as Handlers
 import qualified IOUtils               as IOUtils
+import           System.Environment    (getArgs)
 
 main = do
   json <- B.getContents
@@ -20,7 +21,20 @@ main = do
   conf <-
     case decoded of
       Left err -> do
-        putStrLn err
+        IOUtils.writeErr err
         return Nothing
       Right conf -> return $ Just conf
-  IOUtils.doMaybe (Commands.resourceIn "/tmp/repos.json") conf
+  dirname <- parseDir
+  let fn = \(conf, dir) -> Commands.resourceIn dir conf
+  IOUtils.doMaybe fn (collect conf dirname)
+
+parseDir :: IO (Maybe String)
+parseDir = do
+  args <- getArgs
+  return $ Just $ head args
+
+collect :: Maybe a -> Maybe b -> Maybe (a, b)
+collect a b =
+  case (a, b) of
+    (Just a', Just b') -> Just (a', b')
+    _                  -> Nothing

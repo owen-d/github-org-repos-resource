@@ -3,12 +3,13 @@ module Commands.Check
   ) where
 
 import qualified Config
-import qualified Data.Aeson              as A
-import qualified Data.ByteString.Lazy    as B
-import           Data.Either.Combinators (rightToMaybe)
+import qualified Data.Aeson                 as A
+import qualified Data.ByteString.Lazy       as B
+import qualified Data.ByteString.Lazy.Char8 as C8
+import           Data.Either.Combinators    (rightToMaybe)
 import qualified Handlers
-import qualified Types                   as T
-import           Utils                   (unpackMaybe)
+import qualified Types                      as T
+import           Utils                      (unpackMaybe)
 
 
 -- only report new version if there is a new version and it differs from last
@@ -22,5 +23,5 @@ resourceCheck input = do
           (_, Just y)
             | lastVersion /= currentVersion -> [y]
           _ -> []
-  B.putStr (A.encode res)
+  C8.putStrLn (A.encode res)
 

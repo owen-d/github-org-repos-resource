@@ -20,7 +20,7 @@ main = do
   conf <-
     case decoded of
       Left err -> do
-        putStrLn err
+        IOUtils.writeErr err
         return Nothing
       Right conf -> return $ Just conf
   IOUtils.doMaybe Commands.resourceCheck conf

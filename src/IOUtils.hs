@@ -3,8 +3,9 @@ module IOUtils
     ) where
 
 import qualified Config
+import           Control.Monad (liftM)
+import qualified System.IO     as SIO
 import qualified Types
-import Control.Monad (liftM)
 
 propResultsM ::
      (Show a, Show b) => (a -> IO (Either b c)) -> IO (Maybe a) -> IO (Maybe c)
@@ -27,4 +28,7 @@ doMaybe :: (a -> IO b) -> Maybe a -> IO (Maybe b)
 doMaybe fn x = do
   case x of
     Nothing -> return Nothing
-    Just a -> liftM Just $ fn a
+    Just a  -> liftM Just $ fn a
+
+writeErr :: Show a => a -> IO ()
+writeErr x = SIO.hPutStrLn SIO.stderr (show x)

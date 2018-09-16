@@ -33,10 +33,7 @@ outputs info on stdout:
 #+BEGIN_SRC JSON
 {
   "version": { "ref": "61cebf" },
-  "metadata": [
-    { "name": "commit", "value": "61cebf" },
-    { "name": "author", "value": "Hulk Hogan" }
-  ]
+  "metadata": { "info": "no current metadata supported" }
 }
 #+END_SRC
 ** Out
