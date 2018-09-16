@@ -3,6 +3,8 @@ module Commands.Check
   ) where
 
 import qualified Config
+import qualified Data.Aeson              as A
+import qualified Data.ByteString.Lazy    as B
 import           Data.Either.Combinators (rightToMaybe)
 import qualified Handlers
 import qualified Types                   as T
@@ -10,7 +12,7 @@ import           Utils                   (unpackMaybe)
 
 
 -- only report new version if there is a new version and it differs from last
-resourceCheck :: Config.Input -> IO [T.Version]
+resourceCheck :: Config.Input -> IO ()
 resourceCheck input = do
   let lastVersion = Config.version input
   current <- Handlers.currentVersion input
@@ -20,4 +22,5 @@ resourceCheck input = do
           (_, Just y)
             | lastVersion /= currentVersion -> [y]
           _ -> []
-  return res
+  B.putStr (A.encode res)
+
