@@ -1,6 +1,5 @@
 * github-org-repos-resource
-libs to talk to github
-produces cli tools
+  This resource monitors a github organization for new repositories. The versions are the result of hashing all the repository names. Because this resource is not immutable, it doesn't truly support getting a specific version. Instead, a get call will disregard the requested version and return the list of all current repositories. Checks function as expected, producing a new version hash if the list of repositories has changed.
 * Source
 ** api_key :: String
 ** org :: String
